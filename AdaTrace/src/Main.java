@@ -1006,8 +1006,8 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		long startTime = System.nanoTime();
 		// PART 0 - PARAMETERS
-		String inputFilename = "/home/lia/freemove/transformed_geolife/050.dat";  // file name/path for actual trajectory database
-		double totalEpsilon = 0.5;  // total privacy budget (epsilon)
+		String inputFilename = "/home/lia/freemove/transformed_geolife/181.dat";  // file name/path for actual trajectory database
+		double totalEpsilon = 1.0;  // total privacy budget (epsilon)
 		boolean attacksON = false;
 		
 		// Part 1: Read actual trajectory database
