@@ -1007,7 +1007,7 @@ public class Main {
 		long startTime = System.nanoTime();
 		// PART 0 - PARAMETERS
 		String inputFilename = "/home/lia/freemove/transformed_geolife/181.dat";  // file name/path for actual trajectory database
-		double totalEpsilon = 1.0;  // total privacy budget (epsilon)
+		double totalEpsilon = 5.0;  // total privacy budget (epsilon)
 		boolean attacksON = false;
 		
 		// Part 1: Read actual trajectory database
