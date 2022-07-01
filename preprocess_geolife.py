@@ -19,7 +19,7 @@ def geolife_clean_plt(root, user_id, input_filepath, traj_id):
         for l in filecontents:
             l.insert(0, traj_id)
             l.insert(0, user_id)
-    return filecontents
+    return [filecontents[0], filecontents[-1]]
 
 # get user id and coordinates
 def geolife_data_to_dpstar(dir):
@@ -42,9 +42,9 @@ def geolife_data_to_dpstar(dir):
     df['lngstring'] = df['lng'].astype(str)
     df['latstring'] = df['lat'].astype(str)
     df['locstring'] = df[['lngstring', 'latstring']].agg(','.join, axis=1)
-    return df["uid", "locstring"]
+    return df[["uid", "locstring"]]
 
-# get geolife data as csv
+"""# get geolife data as csv
 if Path(os.path.join(config.PREPROCESSED, "geolife_dpstar.csv")).exists():
     print("Geolife csv ready")
     df = pd.read_csv(os.path.join(config.PREPROCESSED, "geolife_dpstar.csv"), columns = ["uid", "lat", "lng"])
@@ -52,18 +52,20 @@ else:
     df = geolife_data_to_dpstar(config.RAW)
     print(df.head())
     df.to_csv(os.path.join(config.PREPROCESSED, "geolife_dpstar.csv"), index=False)
-    print("Geolife csv ready")
+    print("Geolife csv ready")"""
 
 # get dat file for dpstar
 if Path(os.path.join(config.PREPROCESSED, "geolife_dpstar.dat")).exists():
     print("Geolife dat ready")
 else:
-    f = open(os.path.join(config.PREPROCESSED, "geolife_dpstar.dat"), "a") 
-    users = [i.strip('0') for i in df['uid'].unique()]
-    for i in users:
-        f.write("#"+str(i)+":\n")
-        f.write(">0: "+ ';'.join(df['locstring']).values + "\n")
-    f.close()
+    df = geolife_data_to_dpstar(config.RAW)
+    with open(os.path.join(config.PREPROCESSED, "geolife_dpstar.dat"), "a+") as f:
+        users = df['uid'].unique()
+        for i in range(len(users)):
+            f.write("#"+str(i)+":\n")
+            cond = df['uid'] == users[i]
+            f.write(">0: "+ ';'.join(df[cond].locstring.values) + "\n")
+        f.close()
     print("Geolife dat ready")
 
 
